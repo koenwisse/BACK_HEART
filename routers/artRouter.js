@@ -19,7 +19,7 @@ router.get("/", async (req, res, next) => {
         },
       ],
     });
-    // send the artworks from endpoint
+    // send the artworks (array with objects) from endpoint
     res.status(200).send({ message: "ok", artworks });
     // we log the value of the property with Name Artworks from the object to console
   } catch (e) {
