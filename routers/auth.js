@@ -1,3 +1,14 @@
+// ## Endpoints
+
+// | Method | Path                       | Purpose                             | required parameters   | auth |
+// | ------ | -------------------------- | ----------------------------------- | --------------------- | ---- |
+// | GET    | '/'                        | Test if your server is running      | none                  | no   |
+// | POST   | '/echo'                    | Test POST requests                  | none                  | no   |
+// | POST   | '/signup'                  | Create a new user and get a token   | email, name, password | no   |
+// | POST   | '/login'                   | Get a token with email & password   | email, password       | no   |
+// | GET    | '/me'                      | Get information of this user        | none                  | yes  |
+// | POST   | '/authorized_post_request' | Test POST requests (token required) | none                  | yes  |
+
 const bcrypt = require("bcrypt");
 const { Router } = require("express");
 const { toJWT } = require("../auth/jwt");
@@ -21,7 +32,7 @@ router.post("/login", async (req, res, next) => {
 
     if (!user || !bcrypt.compareSync(password, user.password)) {
       return res.status(400).send({
-        message: "User with that email not found or password incorrect"
+        message: "User with that email not found or password incorrect",
       });
     }
 
@@ -44,7 +55,7 @@ router.post("/signup", async (req, res) => {
     const newUser = await User.create({
       email,
       password: bcrypt.hashSync(password, SALT_ROUNDS),
-      name
+      name,
     });
 
     delete newUser.dataValues["password"]; // don't send back the password hash

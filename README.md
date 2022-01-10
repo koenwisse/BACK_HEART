@@ -12,20 +12,20 @@ This is a simple server template to for my students to start projects quickly.
 
 ## SETUP How to use this template
 
-1. Create a new project based on this template using the `Use this template` button
+1. Create a new project based on this template using the `Use this template` button **_DONE_**
 
 ![HOW_TO_USE](https://user-images.githubusercontent.com/20372832/77003323-70966180-695d-11ea-8abe-b362d57135f3.gif)
 
-2. Clone the app
+2. Clone the app **_DONE_**
 
 ```
 git clone git@github.com:YOUR_GITHUB_NAME/YOUR_PROJECT_NAME.git
 ```
 
-3. cd into your project
+3. cd into your project **_DONE_**
 
 ```
-cd YOUR_PROJECT_NAME
+cd YOUR_PROJECT_NAME ***DONE***
 ```
 
 4. install dependencies
@@ -34,7 +34,7 @@ cd YOUR_PROJECT_NAME
 npm install
 ```
 
-5. Configure your database in `config/config.json`
+5. Configure your database in `config/config.json` **_DONE_**
 
 Default config is setup for usage with an ElephantSQL database instance, you need to provide the DB Url on the "url" key of the config.json file, key development.
 
@@ -45,10 +45,9 @@ Default config is setup for usage with an ElephantSQL database instance, you nee
     "url": "YOUR_ELEPHANTSQL_URL_HERE",
     "dialect": "postgres",
     "operatorsAliases": "0"
-  },
+  }
 }
 ```
-
 
 If planning to use this template with a docker database the config object should be changed to:
 
@@ -68,8 +67,7 @@ If planning to use this template with a docker database the config object should
 
 And you must revert the changes on this line in models/index.js: https://github.com/Codaisseur/express-template/commit/ada7711c8b19c8f240bc61f94743213efe4a77d2#diff-18c449caa39363f82bacb4f7489e7783L15
 
-
-6. Create database, run migrations & seed data
+6. Create database, run migrations & seed data **_DONE_**
 
 `package.json` contains a script for this
 
