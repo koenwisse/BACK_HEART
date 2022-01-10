@@ -1,26 +1,29 @@
 const { Router } = require("express");
+const sequelize = require("sequelize");
 
-const User = require("../models/").user;
+const { artwork, bid } = require("../models");
 const { SALT_ROUNDS } = require("../config/constants");
 
 const router = new Router();
 
-//F1. Get all artwork
+//F1 and F2 Get all artwork and bids
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   // try and catch so that we can catch the error if something wrong with api
   try {
-    // declare var artworks that hold all artworks that comes from your artworks "Model"
-    const artworks = await artwork.findAll();
+    // declare var artworks that hold all artworks that comes from your artworks "Model" and include from model bids all bids
+    const artworks = await artwork.findAll({
+      include: [
+        {
+          model: bid,
+        },
+      ],
+    });
     // send the artworks from endpoint
     res.status(200).send({ message: "ok", artworks });
     // we log the value of the property with Name Artworks from the object to console
-    console.log();
-  } catch (error) {
-    // if database down we get this error / migration not runned
-    console.log(error);
-    // status code so that we get somethiung back in console / httpie terminal and know whats wrong
-    return res.status(400).send({ message: "Something went wrong, sorry" });
+  } catch (e) {
+    next(e);
   }
 });
 //F2. get artwork details by artworkId
@@ -34,8 +37,7 @@ router.get("/:id", async (req, res, next) => {
   console.log(id);
   // declare var "Artwork" that holds the value bid by artwork id
   // .findByPk is find by private key. Here you define what you want to do
-  // methods such as .create to create a user etc can also be used
-  const space = await Space.findByPk(id, {
+  const artwork = await artwork.findByPk(id, {
     // include Story array
     include: [Story],
     // define order in backend instead of in frontend
