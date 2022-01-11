@@ -45,4 +45,20 @@ router.get("/:id", async (req, res, next) => {
   });
   res.send(space);
 });
+
+//F4.
+
+//F3. Patch endpoint
+
+router.patch("/:id/hearts", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const newArtwork = await artwork.findByPk(id);
+    newArtwork.hearts += 1;
+    await newArtwork.save();
+    res.send({ artwork: newArtwork });
+  } catch (e) {
+    next(e);
+  }
+});
 module.exports = router;
