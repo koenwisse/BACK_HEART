@@ -7,7 +7,7 @@ module.exports = {
       [
         {
           title: "Artwork Title 1",
-          imageUrl: "https://imgur.com/gallery/MRhYAHD",
+          imageUrl: "https://imgur.com/RCkbo5h.png",
           hearts: 111,
           minimumBid: 11,
           createdAt: new Date(),
@@ -16,7 +16,7 @@ module.exports = {
         },
         {
           title: "Artwork Title 2",
-          imageUrl: "https://imgur.com/gallery/5yeBVeM",
+          imageUrl: "https://imgur.com/prZA4Ik.png",
           hearts: 222,
           minimumBid: 22,
           createdAt: new Date(),
@@ -25,7 +25,7 @@ module.exports = {
         },
         {
           title: "Artwork Title 3",
-          imageUrl: "https://imgur.com/gallery/gNuPO",
+          imageUrl: "https://imgur.com/AtdREis.png",
           hearts: 333,
           minimumBid: 333,
           createdAt: new Date(),

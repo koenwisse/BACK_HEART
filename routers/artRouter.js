@@ -35,13 +35,13 @@ router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
   // clg id to see if you get the right value
   console.log(id);
-  // declare var "Artwork" that holds the value bid by artwork id
+  // declare var "bid" that holds the value bid by artwork id
   // .findByPk is find by private key. Here you define what you want to do
   const artwork = await artwork.findByPk(id, {
-    // include Story array
-    include: [Story],
+    // include bid array
+    include: [bid],
     // define order in backend instead of in frontend
-    order: [[Story, "createdAt", "DESC"]],
+    // order: [[Story, "createdAt", "DESC"]],
   });
   res.send(space);
 });
