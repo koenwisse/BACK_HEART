@@ -53,7 +53,9 @@ router.get("/:id", async (req, res, next) => {
 router.patch("/:id/hearts", async (req, res, next) => {
   try {
     const { id } = req.params;
-    const newArtwork = await artwork.findByPk(id);
+    const newArtwork = await artwork.findByPk(id, {
+      include: [bid],
+    });
     newArtwork.hearts += 1;
     await newArtwork.save();
     res.send({ artwork: newArtwork });
@@ -61,4 +63,22 @@ router.patch("/:id/hearts", async (req, res, next) => {
     next(e);
   }
 });
+
+// ENDPOINT FOR F4 ALSO HERE
+
 module.exports = router;
+
+// const a = 3;
+// const b = 4;
+// if (a > 10) {
+//   console.log("vet hoog")
+// } else if(a < b) {
+//   console.log("a kleiner dan b");
+// } else {
+//   console.log("a >= b")
+// }
+
+// 1. Get bids for artwork from database.
+// 2. if the array of bids is empty, then look at 'minimumBid' property from artwork (taken frmo database).
+// 3. if array not empty, then find the highest bid amount from the array of bids;
+// 4. compare the amount with what the user provided.

@@ -82,5 +82,5 @@ router.get("/me", authMiddleware, async (req, res) => {
   delete req.user.dataValues["password"];
   res.status(200).send({ ...req.user.dataValues });
 });
-
+// ABOVE EXAMPLE OF AUTHMIDDLEWARE, IF NT THERE YU CAN NOT IN THIS CASE DELETE PASSWORD F4
 module.exports = router;
