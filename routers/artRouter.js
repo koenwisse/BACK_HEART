@@ -3,6 +3,7 @@ const sequelize = require("sequelize");
 const auth = require("../auth/middleware");
 const { artwork, bid } = require("../models");
 const { SALT_ROUNDS } = require("../config/constants");
+const authMiddleware = require("../auth/middleware");
 
 const router = new Router();
 
@@ -67,7 +68,7 @@ router.patch("/:id/hearts", async (req, res, next) => {
 // ENDPOINT FOR F4 ALSO HERE
 // Add auth: router.post("/:id/bids", async (req, res) => {
 // We need to create a new entry in our DB --> post
-router.post("/:id/bids", async (req, res, next) => {
+router.post("/:id/bids", authMiddleware, async (req, res, next) => {
   try {
     // data is coming from the body as we get it from the frontend form
     // we read the artworkId from the URL (:id parameter) and store it as an integer in the artworkId variable:
