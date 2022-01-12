@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const sequelize = require("sequelize");
-
+const auth = require("../auth/middleware");
 const { artwork, bid } = require("../models");
 const { SALT_ROUNDS } = require("../config/constants");
 
@@ -65,6 +65,62 @@ router.patch("/:id/hearts", async (req, res, next) => {
 });
 
 // ENDPOINT FOR F4 ALSO HERE
+// Add auth: router.post("/:id/bids", async (req, res) => {
+// We need to create a new entry in our DB --> post
+router.post("/:id/bids", async (req, res, next) => {
+  try {
+    // data is coming from the body as we get it from the frontend form
+    // we read the artworkId from the URL (:id parameter) and store it as an integer in the artworkId variable:
+    const artworkId = req.params.id;
+    // what are we going to create in DB:
+    const { email, amount } = req.body;
+    console.log("params", req.params);
+    console.log("body", req.body);
+
+    // sequelize loads an array "bits" for us automatically, because `artwork` and `bid` models have a one-to-many relationship
+    const updatedArtwork = await artwork.findByPk(artworkId, {
+      include: [bid],
+    });
+    console.log({ artworkId, updatedArtwork });
+    // if there are already any bids (updatedArtwork.bids.length > 0), then we take the maximum amount of the existing bids (Math.max(...updatedArtwork.bids.map(bid => bid.amount)))
+    // otherwise, we read the `minimumBid` from the artwork itself.
+    const minimumBid =
+      updatedArtwork.bids.length > 0
+        ? Math.max(...updatedArtwork.bids.map((bid) => bid.amount))
+        : updatedArtwork.minimumBid;
+
+    if (amount > minimumBid) {
+      // We need to validate first but under the right circumstances create a new amount (so a new bid)
+      const newBid = await bid.create({ email, amount, artworkId, minimumBid });
+      updatedArtwork.bids.push(newBid);
+      // I need to send a response
+      // write if statements to decide when to update
+      res.send({
+        artwork: updatedArtwork,
+        success: true,
+        error: null,
+      });
+    } else {
+      res.status(400).send({
+        artwork: updatedArtwork, // `updatedArtwork` is actually not updated in this case!
+        success: false,
+        error: "the bid is not high enough",
+      });
+    }
+  } catch (e) {
+    next(e);
+  }
+});
+
+// router.post("/:id/bids", async (req, res, next) => {
+//   const { id } = req.params;
+//   const newArtwork = await artwork.findByPk(id, {
+//     include: [bid],
+//   });
+//   console.log(newArtwork);
+//   await artwork.create({});
+//   res.send({ newbid: newBid });
+// });
 
 module.exports = router;
 
